@@ -69,9 +69,20 @@ begin printE;
         for (mov(0, BL); BL < spaces; inc(BL)) do
             stdout.put("  ");
         endfor;
-        stdout.put("* ", nl);
+        stdout.put("*", nl);
     endfor;
 end printE;
+
+procedure printF;
+begin printF;
+    stdout.put("Shape F:", nl);
+    for (mov(0, CL); CL < AL; inc(CL)) do
+        for (mov(0, BL); BL < CL; inc(BL)) do
+            stdout.put("  ");
+        endfor;
+        stdout.put("*", nl);
+    endfor;
+end printF;
 
 begin printStars;
     repeat
@@ -95,6 +106,7 @@ begin printStars;
     printC();
     printD();
     printE();
+    printF();
 
     stdout.newln();
     stdout.put("David McNeary - End Project 5", nl);
