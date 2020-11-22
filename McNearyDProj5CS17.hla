@@ -6,7 +6,9 @@ program printStars;
 // Date created: 11/21/2020
 
 static
-    oddFlag: uns8 := 0;
+    //boolean for input validation loop
+    //switches to 1 when input is valid
+    inputFlag: uns8 := 0;
 
 procedure printA;
 begin printA;
@@ -59,14 +61,12 @@ begin printD;
 end printD;
 
 procedure printE;
-var 
-    spaces: uns8;
 begin printE;
     stdout.put("Shape E:", nl);
     for (mov(1, CL); CL <= AL; inc(CL)) do
-        mov(AL, spaces);
-        sub(CL, spaces);
-        for (mov(0, BL); BL < spaces; inc(BL)) do
+        mov(AL, DL);
+        sub(CL, DL);
+        for (mov(0, BL); BL < DL; inc(BL)) do
             stdout.put("  ");
         endfor;
         stdout.put("*", nl);
@@ -84,10 +84,30 @@ begin printF;
     endfor;
 end printF;
 
+procedure printG;
+begin printG;
+    stdout.put("Shape G:", nl);
+    for (mov(0, CL); CL < AL; inc(CL)) do
+        mov(AL, DL);
+        sub(CL, DL);
+        dec(DL); //this is where it got tricky!
+        for (mov(0, BL); BL < AL; inc(BL)) do
+            if ((BL == CL) || (BL == DL)) then
+                stdout.put("* ");
+            else
+                stdout.put("  ");
+            endif;
+        endfor;
+        stdout.newln();
+    endfor;
+end printG;
+
 begin printStars;
     repeat
         stdout.put("Please enter an odd integer between 5 and 9: ");
         stdin.getu8();
+
+        //test for odd number, zero flag will be 1 if AL is even
         test(1, AL);
         if (@z) then 
             stdout.put("You entered an even number", nl);
@@ -96,9 +116,9 @@ begin printStars;
         elseif (AL > 9) then
             stdout.put("You entered a number greater than 9", nl);
         else
-            inc(oddFlag);
+            inc(inputFlag);
         endif;
-    until (oddFlag = 1);
+    until (inputFlag = 1);
 
     stdout.put("Printing ", AL, " stars:", nl);
     printA();
@@ -107,6 +127,7 @@ begin printStars;
     printD();
     printE();
     printF();
+    printG();
 
     stdout.newln();
     stdout.put("David McNeary - End Project 5", nl);
