@@ -1,0 +1,29 @@
+program printStars;
+#include ("stdlib.hhf")
+// David McNeary - Project 5
+// This program prints pre-programmed patterns
+// of asterisks according to a user's input
+// Date created: 11/21/2020
+
+static
+    oddFlag: uns8 := 0;
+
+begin printStars;
+    repeat
+        stdout.put("Please enter an odd integer between 5 and 9: ");
+        stdin.getu8();
+        test(1, AL);
+        if (@z) then 
+            stdout.put("You entered an even number", nl);
+        elseif (AL < 5) then
+            stdout.put("You entered a number less than 5", nl);
+        elseif (AL > 9) then
+            stdout.put("You entered a number greater than 9", nl);
+        else
+            inc(oddFlag);
+        endif;
+    until (oddFlag = 1);
+
+    stdout.newln();
+    stdout.put("David McNeary - End Project 5", nl);
+end printStars;

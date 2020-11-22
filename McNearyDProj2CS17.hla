@@ -1,0 +1,55 @@
+program MaxMin;
+#include( "stdlib.hhf" )
+
+// David McNeary - Project 2
+// This program accepts a user integer input,
+// and calculates the maximum, minimum,
+// and sum of all inputs.
+// Date created: 10/17/2020
+
+static
+    input :    int32;
+    inputCnt : int8 := 0;
+    intMax :   int32 := 0;
+    intMin :   int32 := 0;
+    sum :      int32 := 0;
+ 
+begin MaxMin;
+    stdout.put("David McNeary - Project 2");
+    stdout.newln();
+    
+    //get first input
+    stdout.put("Enter an integer, 0 to end program: ");
+    stdin.geti32();
+    mov ( EAX, intMax );
+    mov ( EAX, intMin );
+    mov ( EAX, input );
+    // loop until input = 0
+    while ( input <> 0 ) do
+        //check for min/max
+        if ( EAX > intMax ) then
+            mov ( EAX, intMax );
+        endif;
+        if (EAX < intMin) then
+            mov ( EAX, intMin );       
+        endif;
+
+        //add to sum and increment input count
+        add ( EAX, sum );
+        add ( 1, inputCnt );
+
+        //get new input
+        stdout.put("Enter an integer, 0 to end program: ");
+        stdin.geti32();
+        mov ( EAX, input );
+    endwhile;
+
+    stdout.newln();
+    //print results
+    stdout.put("Input count: ", inputCnt, nl);
+    stdout.put("Sum of inputs: ", sum, nl);
+    stdout.put("Maximum: ", intMax, nl);
+    stdout.put("Minimum: ", intMin, nl);
+    stdout.newln();
+    stdout.put("David McNeary - End of Project 2");
+end MaxMin;

@@ -1,0 +1,58 @@
+program SelSort;
+#include( "stdlib.hhf" )
+
+// David McNeary - Project 4
+// This program sorts a declared array of numbers
+// using a selection sort algorithm.
+// Date created: 11/7/2020
+
+const
+    arrSize := 16;
+
+static
+    numsArr: uns32 [arrSize] := 
+        [2, 34, 65, 23, 78, 15, 84, 25,
+        30, 94, 64, 75, 35, 47, 20, 32];
+        lastIndex: int32 := arrSize - 1;
+        maxIndex: uns32;
+
+begin SelSort;
+    stdout.put("David McNeary - Begin Project 4", nl);
+    stdout.put("Number of elements (size of array): ", arrSize, nl); 
+    stdout.put("Original array: ", nl);
+    for ( mov(0, EBX); EBX < arrSize; inc(EBX) ) do     //loop over arr and print elements
+        stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
+    endfor;
+
+    stdout.put(nl, "Now sorting...", nl);
+    while (lastIndex > 0) do
+        mov(0, maxIndex);
+
+        for ( mov(0, EBX); EBX <= lastIndex; inc(EBX) ) do
+            mov(maxIndex, ECX);                         //load maxIndex to ECX for addressing
+            mov(numsArr[ECX * 4], EAX);                 //load el at maxIndex to EAX for comparison
+
+            if (EAX < numsArr[EBX * 4]) then            //if current max el less than next el,
+                mov(EBX, maxIndex);                     //EBX (i) is now max index
+            endif;
+
+        endfor;
+
+        mov(lastIndex, EBX);                            //load indexes into registers for addressing
+        mov(maxIndex, ECX);
+
+        mov(numsArr[EBX * 4], EDX);                     //use EDX for temp data
+        mov(numsArr[ECX * 4], numsArr[EBX * 4]);        //move max el to end of array
+        mov(EDX, numsArr[ECX * 4]);                     //copy temp data back into the mix
+
+        for ( mov(0, EBX); EBX < arrSize; inc(EBX) ) do //loop over arr and print elements
+            stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
+        endfor;
+
+        stdout.newln();
+        dec(lastIndex);                                 //last el is sorted, reduce selection size
+    endwhile;
+
+    stdout.newln();
+    stdout.put("David McNeary - End Project 4", nl);
+end SelSort;

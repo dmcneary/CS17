@@ -1,0 +1,50 @@
+program HeapMem;
+#include( "stdlib.hhf" )
+
+// David McNeary - Project 3
+// This program accepts user integer inputs,
+// stores those values in heap memory,
+// then displays them on the command line.
+// Date created: 11/1/2020
+
+static
+    heapPointer: uns32;
+    input:       int16;
+    counter:     int8 := 0;
+ 
+begin HeapMem;
+    stdout.put("David McNeary - Project 3");
+    stdout.newln();
+    //allocate memory
+    mem.alloc(500);
+    mov(EAX, EBX);
+    push(EAX);
+    //get first input
+    stdout.put("Enter a positive integer, 0 to end program: ");
+    stdin.get(input);
+    // loop until input = 0
+    while(input <> 0)do
+        //move input to heap
+        mov(input, [EAX]);
+        //increment count
+        inc(counter);
+        //move pointer to next position in heap
+        add(2, EAX);
+        //get new input
+        stdout.put("Enter a positive integer, 0 to end program: ");
+        stdin.get(input);
+    endwhile;
+    stdout.newln();
+
+    //print results
+    for(mov(0, CL); CL < counter; inc(CL))do
+        mov([EBX], input);
+        stdout.put(input, " ");
+        add(2, EBX);
+    endfor;
+    //free memory
+    pop(EAX);
+    mem.free(EAX);
+    stdout.newln();
+    stdout.put("David McNeary - End of Project 3");
+end HeapMem;
