@@ -44,6 +44,20 @@ begin printC;
     endfor;
 end printC;
 
+procedure printD;
+begin printD;
+    stdout.put("Shape D:", nl);
+    for (mov(1, CL); CL <= AL; inc(CL)) do
+        for (mov(AL, BL); BL > CL; dec(BL)) do
+            stdout.put("  ");
+        endfor;
+        for(mov(0, BL); BL < CL; inc(BL)) do
+            stdout.put("* ");
+        endfor;
+        stdout.newln();
+    endfor;
+end printD;
+
 begin printStars;
     repeat
         stdout.put("Please enter an odd integer between 5 and 9: ");
@@ -64,6 +78,7 @@ begin printStars;
     printA();
     printB();
     printC();
+    printD();
 
     stdout.newln();
     stdout.put("David McNeary - End Project 5", nl);
