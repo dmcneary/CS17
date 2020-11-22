@@ -8,6 +8,17 @@ program printStars;
 static
     oddFlag: uns8 := 0;
 
+procedure printA;
+begin printA;
+    stdout.put("Shape A:", nl);
+    for (mov(1, CL); CL <= AL; inc(CL)) do
+        for (mov(0, BL); BL < CL; inc(BL)) do
+            stdout.put("* ");
+        endfor;
+        stdout.newln();
+    endfor;
+end printA;
+
 begin printStars;
     repeat
         stdout.put("Please enter an odd integer between 5 and 9: ");
@@ -23,6 +34,9 @@ begin printStars;
             inc(oddFlag);
         endif;
     until (oddFlag = 1);
+
+    stdout.put("Printing ", AL, " stars:", nl);
+    printA();
 
     stdout.newln();
     stdout.put("David McNeary - End Project 5", nl);
