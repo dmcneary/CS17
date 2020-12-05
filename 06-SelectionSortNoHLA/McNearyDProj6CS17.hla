@@ -29,8 +29,9 @@ DispOrgArr:     cmp(EBX, arrSize);                          //loop over arr and 
 EndDispOrg:     stdout.newln();
                 stdout.put("Now sorting...", nl);
 
-WhileLoop:      test(lastIndex, lastIndex);                 //while (lastIndex > 0) do
-                jz EndWhileLoop;
+WhileLoop:      mov(0, EAX);
+                test(EAX, lastIndex);                 //while lastIndex > 0 do
+                je EndWhileLoop;
                 mov(0, maxIndex);
                 mov(0, EBX);
 
@@ -50,10 +51,10 @@ EndSort:        mov(lastIndex, EBX);                        //load indexes into 
                 mov(EDX, numsArr[ECX * 4]);
 
 DispArr:        cmp(EBX, arrSize);                          //loop over arr and print elements
-                je EndDispOrg;
+                je EndDispArr;
                 stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
                 inc(EBX);
-                jmp DispOrgArr;
+                jmp DispArr;
 EndDispArr:     stdout.newln();
                 dec(lastIndex);                             //last el is sorted, reduce selection size
                 jmp WhileLoop;
