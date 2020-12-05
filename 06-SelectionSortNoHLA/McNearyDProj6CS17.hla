@@ -8,52 +8,56 @@ program SelSort;
 // Date created: 12/5/2020
 
 const
-    arrSize := 16;
-
+                arrSize := 16;
 static
-    numsArr: uns32 [arrSize] := 
-        [2, 34, 65, 23, 78, 15, 84, 25,
-        30, 94, 64, 75, 35, 47, 20, 32];
-        lastIndex: int32 := arrSize - 1;
-        maxIndex: uns32;
-
+                numsArr: uns32 [arrSize] := 
+                    [2, 34, 65, 23, 78, 15, 84, 25,
+                    30, 94, 64, 75, 35, 47, 20, 32];
+                lastIndex: int32 := arrSize - 1;
+                maxIndex: uns32;
 begin SelSort;
-    stdout.put("David McNeary - Begin Project 6", nl);
-    stdout.put("Number of elements (size of array): ", arrSize, nl); 
-    stdout.put("Original array: ", nl);
-    for ( mov(0, EBX); EBX < arrSize; inc(EBX) ) do     //loop over arr and print elements
-        stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
-    endfor;
+                stdout.put("David McNeary - Begin Project 6", nl);
+                stdout.put("Number of elements (size of array): ", arrSize, nl); 
+                stdout.put("Original array: ", nl);
 
-    stdout.put(nl, "Now sorting...", nl);
-    while (lastIndex > 0) do
-        mov(0, maxIndex);
+                mov(0, EBX);
+DispOrgArr:     cmp(EBX, arrSize);                          //loop over arr and print elements
+                je EndDispOrg;
+                stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
+                inc(EBX);
+                jmp DispOrgArr;
+EndDispOrg:     stdout.newln();
+                stdout.put("Now sorting...", nl);
 
-        for ( mov(0, EBX); EBX <= lastIndex; inc(EBX) ) do
-            mov(maxIndex, ECX);                         //load maxIndex to ECX for addressing
-            mov(numsArr[ECX * 4], EAX);                 //load el at maxIndex to EAX for comparison
+WhileLoop:      test(lastIndex, lastIndex);                 //while (lastIndex > 0) do
+                jz EndWhileLoop;
+                mov(0, maxIndex);
+                mov(0, EBX);
 
-            if (EAX < numsArr[EBX * 4]) then            //if current max el less than next el,
-                mov(EBX, maxIndex);                     //EBX (i) is now max index
-            endif;
+SortLoop:       cmp(EBX, lastIndex);                        //for ( mov(0, EBX); EBX <= lastIndex; inc(EBX) ) do
+                ja EndSort;                    
+                mov(maxIndex, ECX);                         //load maxIndex to ECX for addressing
+                mov(numsArr[ECX * 4], EAX);                 //load el at maxIndex to EAX for comparison
+                cmp(EAX, numsArr[EBX * 4]);                 //if (EAX < numsArr[EBX * 4]) then
+                je EndMaxTest;
+                mov(EBX, maxIndex);                         //EBX (i) is now max index
+EndMaxTest:     inc(EBX);
+                jmp SortLoop;
+EndSort:        mov(lastIndex, EBX);                        //load indexes into registers for addressing
+                mov(maxIndex, ECX);
+                mov(numsArr[EBX * 4], EDX);                 //use EDX for temp data
+                mov(numsArr[ECX * 4], numsArr[EBX * 4]);    //move max el to end of array
+                mov(EDX, numsArr[ECX * 4]);
 
-        endfor;
+DispArr:        cmp(EBX, arrSize);                          //loop over arr and print elements
+                je EndDispOrg;
+                stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
+                inc(EBX);
+                jmp DispOrgArr;
+EndDispArr:     stdout.newln();
+                dec(lastIndex);                             //last el is sorted, reduce selection size
+                jmp WhileLoop;
 
-        mov(lastIndex, EBX);                            //load indexes into registers for addressing
-        mov(maxIndex, ECX);
-
-        mov(numsArr[EBX * 4], EDX);                     //use EDX for temp data
-        mov(numsArr[ECX * 4], numsArr[EBX * 4]);        //move max el to end of array
-        mov(EDX, numsArr[ECX * 4]);                     //copy temp data back into the mix
-
-        for ( mov(0, EBX); EBX < arrSize; inc(EBX) ) do //loop over arr and print elements
-            stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
-        endfor;
-
-        stdout.newln();
-        dec(lastIndex);                                 //last el is sorted, reduce selection size
-    endwhile;
-
-    stdout.newln();
-    stdout.put("David McNeary - End Project 6", nl);
+EndWhileLoop:   stdout.newln();
+                stdout.put("David McNeary - End Project 6", nl);
 end SelSort;
