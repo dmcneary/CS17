@@ -30,26 +30,28 @@ EndDispOrg:     stdout.newln();
                 stdout.put("Now sorting...", nl);
 
 WhileLoop:      mov(0, EAX);
-                test(EAX, lastIndex);                 //while lastIndex > 0 do
+                cmp(EAX, lastIndex);                 //while lastIndex > 0 do
                 je EndWhileLoop;
                 mov(0, maxIndex);
                 mov(0, EBX);
 
-SortLoop:       cmp(EBX, lastIndex);                        //for ( mov(0, EBX); EBX <= lastIndex; inc(EBX) ) do
-                ja EndSort;                    
+FindMaxLoop:    cmp(EBX, lastIndex);                        //for ( mov(0, EBX); EBX <= lastIndex; inc(EBX) ) do
+                jg Sort;
                 mov(maxIndex, ECX);                         //load maxIndex to ECX for addressing
                 mov(numsArr[ECX * 4], EAX);                 //load el at maxIndex to EAX for comparison
                 cmp(EAX, numsArr[EBX * 4]);                 //if (EAX < numsArr[EBX * 4]) then
-                je EndMaxTest;
+                jnb EndMaxTest;
                 mov(EBX, maxIndex);                         //EBX (i) is now max index
+                stdout.put("Max element is: ",numsArr[EBX * 4], nl);
 EndMaxTest:     inc(EBX);
-                jmp SortLoop;
-EndSort:        mov(lastIndex, EBX);                        //load indexes into registers for addressing
+                jmp FindMaxLoop;
+Sort:           mov(lastIndex, EBX);                        //load indexes into registers for addressing
                 mov(maxIndex, ECX);
                 mov(numsArr[EBX * 4], EDX);                 //use EDX for temp data
                 mov(numsArr[ECX * 4], numsArr[EBX * 4]);    //move max el to end of array
                 mov(EDX, numsArr[ECX * 4]);
-
+                stdout.put("Swapped: ", numsArr[ECX * 4], " and ", numsArr[EBX * 4], nl);
+                mov(0, EBX);
 DispArr:        cmp(EBX, arrSize);                          //loop over arr and print elements
                 je EndDispArr;
                 stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
