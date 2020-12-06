@@ -17,8 +17,7 @@ static
                 maxIndex: uns32;
 begin SelSort;
                 stdout.put("David McNeary - Begin Project 6", nl);
-                stdout.put("Number of elements (size of array): ", arrSize, nl); 
-                stdout.put("Original array: ", nl);
+                stdout.put(nl, "Original array: ", nl);
 
                 mov(0, EBX);
 DispOrgArr:     cmp(EBX, arrSize);                          //loop over arr and print elements
@@ -26,11 +25,12 @@ DispOrgArr:     cmp(EBX, arrSize);                          //loop over arr and 
                 stdout.puti32Size(numsArr[EBX * 4], 3, ' ');
                 inc(EBX);
                 jmp DispOrgArr;
-EndDispOrg:     stdout.newln();
-                stdout.put("Now sorting...", nl);
+                
+EndDispOrg:     stdout.put(nl, "Number of elements: ", arrSize, nl); 
+                stdout.put(nl, "Now sorting...", nl);
 
 WhileLoop:      mov(0, EAX);
-                cmp(EAX, lastIndex);                 //while lastIndex > 0 do
+                cmp(EAX, lastIndex);                        //while lastIndex > 0 do
                 je EndWhileLoop;
                 mov(0, maxIndex);
                 mov(0, EBX);
@@ -42,7 +42,6 @@ FindMaxLoop:    cmp(EBX, lastIndex);                        //for ( mov(0, EBX);
                 cmp(EAX, numsArr[EBX * 4]);                 //if (EAX < numsArr[EBX * 4]) then
                 jnb EndMaxTest;
                 mov(EBX, maxIndex);                         //EBX (i) is now max index
-                stdout.put("Max element is: ",numsArr[EBX * 4], nl);
 EndMaxTest:     inc(EBX);
                 jmp FindMaxLoop;
 Sort:           mov(lastIndex, EBX);                        //load indexes into registers for addressing
@@ -50,7 +49,6 @@ Sort:           mov(lastIndex, EBX);                        //load indexes into 
                 mov(numsArr[EBX * 4], EDX);                 //use EDX for temp data
                 mov(numsArr[ECX * 4], numsArr[EBX * 4]);    //move max el to end of array
                 mov(EDX, numsArr[ECX * 4]);
-                stdout.put("Swapped: ", numsArr[ECX * 4], " and ", numsArr[EBX * 4], nl);
                 mov(0, EBX);
 DispArr:        cmp(EBX, arrSize);                          //loop over arr and print elements
                 je EndDispArr;
